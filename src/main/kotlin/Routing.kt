@@ -1,60 +1,40 @@
 package com.example
 
+import com.example.model.Priority
+import com.example.model.TaskRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import com.example.model.*
-import io.ktor.server.http.content.staticResources
+import com.example.model.Task
+import io.ktor.serialization.*
 import io.ktor.server.request.*
 
 fun Application.configureRouting() {
     routing {
-        //add the following line
-        staticResources("/task-ui", "task-ui")
+        staticResources("static", "static")
 
-        get("/") {
-            call.respondText("Hello World!")
-        }
-
-        route("/tasks"){
+        //updated implementation
+        route("/tasks") {
             get {
                 val tasks = TaskRepository.allTasks()
-                call.respondText(
-                    contentType = ContentType.parse("text/html"),
-                    text = tasks.tasksAsTable()
-                )
+                call.respond(tasks)
             }
-            post {
-                val formContent = call.receiveParameters()
 
-                val params = Triple(
-                    formContent["name"] ?: "",
-                    formContent["description"] ?: "",
-                    formContent["priority"] ?: ""
-                )
-
-                if (params.toList().any { it.isEmpty() }) {
+            get("/byName/{taskName}") {
+                val name = call.parameters["taskName"]
+                if (name == null) {
                     call.respond(HttpStatusCode.BadRequest)
-                    return@post
+                    return@get
                 }
 
-                try {
-                    val priority = Priority.valueOf(params.third)
-                    TaskRepository.addTask(
-                        Task(
-                            params.first,
-                            params.second,
-                            priority
-                        )
-                    )
-
-                    call.respond(HttpStatusCode.NoContent)
-                } catch (ex: IllegalArgumentException) {
-                    call.respond(HttpStatusCode.BadRequest)
-                } catch (ex: IllegalStateException) {
-                    call.respond(HttpStatusCode.BadRequest)
+                val task = TaskRepository.taskByName(name)
+                if (task == null) {
+                    call.respond(HttpStatusCode.NotFound)
+                    return@get
                 }
+                call.respond(task)
             }
             get("/byPriority/{priority}") {
                 val priorityAsText = call.parameters["priority"]
@@ -62,7 +42,6 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.BadRequest)
                     return@get
                 }
-
                 try {
                     val priority = Priority.valueOf(priorityAsText)
                     val tasks = TaskRepository.tasksByPriority(priority)
@@ -71,16 +50,36 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.NotFound)
                         return@get
                     }
-
-                    call.respondText(
-                        contentType = ContentType.parse("text/html"),
-                        text = tasks.tasksAsTable()
-                    )
+                    call.respond(tasks)
                 } catch (ex: IllegalArgumentException) {
                     call.respond(HttpStatusCode.BadRequest)
                 }
+
+            }
+            post {
+                try {
+                    val task = call.receive<Task>()
+                    TaskRepository.addTask(task)
+                    call.respond(HttpStatusCode.Created)
+                } catch (ex: IllegalStateException) {
+                    call.respond(HttpStatusCode.BadRequest)
+                } catch (ex: JsonConvertException) {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
+            }
+            delete("/{taskName}") {
+                val name = call.parameters["taskName"]
+                if (name == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@delete
+                }
+
+                if (TaskRepository.removeTask(name)) {
+                    call.respond(HttpStatusCode.NoContent)
+                } else {
+                    call.respond(HttpStatusCode.NotFound)
+                }
             }
         }
-
     }
 }

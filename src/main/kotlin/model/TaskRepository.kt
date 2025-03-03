@@ -18,11 +18,14 @@ object TaskRepository {
         it.name.equals(name, ignoreCase = true)
     }
 
-fun addTask(task: Task) {
-        if(taskByName(task.name) != null) {
-            println("Cannot duplicate task names!")
+    fun addTask(task: Task) {
+        if (taskByName(task.name) != null) {
             throw IllegalStateException("Cannot duplicate task names!")
         }
         tasks.add(task)
+    }
+
+    fun removeTask(name: String): Boolean {
+        return tasks.removeIf { it.name == name }
     }
 }

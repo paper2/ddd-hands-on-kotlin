@@ -1,4 +1,4 @@
-# ktor-sample-app
+# ktor-sample
 
 This project was created using the [Ktor Project Generator](https://start.ktor.io).
 
@@ -12,9 +12,12 @@ Here are some useful links to get you started:
 
 Here's a list of features included in this project:
 
-| Name                                               | Description                                                 |
-| ----------------------------------------------------|------------------------------------------------------------- |
-| [Routing](https://start.ktor.io/p/routing-default) | Allows to define structured routes and associated handlers. |
+| Name                                                                   | Description                                                                        |
+| ------------------------------------------------------------------------|------------------------------------------------------------------------------------ |
+| [Routing](https://start.ktor.io/p/routing)                             | Provides a structured routing DSL                                                  |
+| [Static Content](https://start.ktor.io/p/static-content)               | Serves static files from defined locations                                         |
+| [Content Negotiation](https://start.ktor.io/p/content-negotiation)     | Provides automatic content conversion according to Content-Type and Accept headers |
+| [kotlinx.serialization](https://start.ktor.io/p/kotlinx-serialization) | Handles JSON serialization using kotlinx.serialization library                     |
 
 ## Building & Running
 

@@ -1,13 +1,14 @@
 package com.example
 
+import com.example.model.Priority
+import com.example.model.Task
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
-import org.junit.Test
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
-
+import kotlin.test.*
 
 class ApplicationTest {
     @Test
@@ -15,13 +16,20 @@ class ApplicationTest {
         application {
             module()
         }
+        val client = createClient {
+            install(ContentNegotiation) {
+                json()
+            }
+        }
 
         val response = client.get("/tasks/byPriority/Medium")
-        val body = response.bodyAsText()
+        val results = response.body<List<Task>>()
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertContains(body, "Mow the lawn")
-        assertContains(body, "Paint the fence")
+
+        val expectedTaskNames = listOf("gardening", "painting")
+        val actualTaskNames = results.map(Task::name)
+        assertContentEquals(expectedTaskNames, actualTaskNames)
     }
 
     @Test
@@ -29,17 +37,16 @@ class ApplicationTest {
         application {
             module()
         }
-
         val response = client.get("/tasks/byPriority/Invalid")
         assertEquals(HttpStatusCode.BadRequest, response.status)
     }
+
 
     @Test
     fun unusedPriorityProduces404() = testApplication {
         application {
             module()
         }
-
         val response = client.get("/tasks/byPriority/Vital")
         assertEquals(HttpStatusCode.NotFound, response.status)
     }
@@ -49,28 +56,30 @@ class ApplicationTest {
         application {
             module()
         }
+        val client = createClient {
+            install(ContentNegotiation) {
+                json()
+            }
+        }
 
+        val task = Task("swimming", "Go to the beach", Priority.Low)
         val response1 = client.post("/tasks") {
             header(
                 HttpHeaders.ContentType,
-                ContentType.Application.FormUrlEncoded.toString()
+                ContentType.Application.Json
             )
-            setBody(
-                listOf(
-                    "name" to "swimming",
-                    "description" to "Go to the beach",
-                    "priority" to "Low"
-                ).formUrlEncode()
-            )
-        }
 
-        assertEquals(HttpStatusCode.NoContent, response1.status)
+            setBody(task)
+        }
+        assertEquals(HttpStatusCode.Created, response1.status)
 
         val response2 = client.get("/tasks")
         assertEquals(HttpStatusCode.OK, response2.status)
-        val body = response2.bodyAsText()
 
-        assertContains(body, "swimming")
-        assertContains(body, "Go to the beach")
+        val taskNames = response2
+            .body<List<Task>>()
+            .map { it.name }
+
+        assertContains(taskNames, "swimming")
     }
 }
