@@ -1,5 +1,6 @@
 package com.example
 
+import com.example.model.FakeTaskRepository
 import com.example.model.Priority
 import com.example.model.Task
 import io.ktor.client.call.*
@@ -14,8 +15,11 @@ class ApplicationTest {
     @Test
     fun tasksCanBeFoundByPriority() = testApplication {
         application {
-            module()
+            val repository = FakeTaskRepository()
+            configureSerialization(repository)
+            configureRouting()
         }
+
         val client = createClient {
             install(ContentNegotiation) {
                 json()
@@ -35,18 +39,22 @@ class ApplicationTest {
     @Test
     fun invalidPriorityProduces400() = testApplication {
         application {
-            module()
+            val repository = FakeTaskRepository()
+            configureSerialization(repository)
+            configureRouting()
         }
         val response = client.get("/tasks/byPriority/Invalid")
         assertEquals(HttpStatusCode.BadRequest, response.status)
     }
 
-
     @Test
     fun unusedPriorityProduces404() = testApplication {
         application {
-            module()
+            val repository = FakeTaskRepository()
+            configureSerialization(repository)
+            configureRouting()
         }
+
         val response = client.get("/tasks/byPriority/Vital")
         assertEquals(HttpStatusCode.NotFound, response.status)
     }
@@ -54,8 +62,11 @@ class ApplicationTest {
     @Test
     fun newTasksCanBeAdded() = testApplication {
         application {
-            module()
+            val repository = FakeTaskRepository()
+            configureSerialization(repository)
+            configureRouting()
         }
+
         val client = createClient {
             install(ContentNegotiation) {
                 json()
@@ -71,7 +82,7 @@ class ApplicationTest {
 
             setBody(task)
         }
-        assertEquals(HttpStatusCode.Created, response1.status)
+        assertEquals(HttpStatusCode.NoContent, response1.status)
 
         val response2 = client.get("/tasks")
         assertEquals(HttpStatusCode.OK, response2.status)
