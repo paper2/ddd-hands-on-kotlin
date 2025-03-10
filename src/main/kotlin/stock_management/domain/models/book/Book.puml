@@ -1,8 +1,8 @@
 @startuml Book
 
-!include ./book_id/BookId.puml
-!include ./title/Title.puml
-!include ./price/Price.puml
+!include book_id/BookId.puml
+!include title/Title.puml
+!include price/Price.puml
 
 class "Book(書籍)" as Book << (R,red) RootEntity >> {
     BookId: BookId
