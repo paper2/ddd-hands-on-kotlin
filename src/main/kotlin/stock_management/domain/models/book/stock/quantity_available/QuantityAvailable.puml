@@ -1,7 +1,7 @@
 @startuml QuantityAvailable
 
 class "QuantityAvailable(在庫数)" as QuantityAvailable {
-    + value: number
+    + value: Int
 }
 
 note bottom of QuantityAvailable
