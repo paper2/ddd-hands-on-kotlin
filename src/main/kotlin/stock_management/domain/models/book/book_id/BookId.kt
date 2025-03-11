@@ -1,10 +1,10 @@
 package com.example.stock_management.domain.models.book.book_id
 
 @JvmInline
-value class BookId(val value: String) {
+value class BookId(val bookId: String) {
 
     init {
-        validate(value)
+        validate()
     }
 
     companion object {
@@ -12,12 +12,12 @@ value class BookId(val value: String) {
         const val MIN_LENGTH = 10
     }
 
-    private fun validate(isbn: String) {
-        if (isbn.length !in MIN_LENGTH..MAX_LENGTH) {
+    private fun validate() {
+        if (bookId.length !in MIN_LENGTH..MAX_LENGTH) {
             throw IllegalArgumentException("ISBNの文字数が不正です")
         }
 
-        if (!isValidIsbn10(isbn) && !isValidIsbn13(isbn)) {
+        if (!isValidIsbn10(bookId) && !isValidIsbn13(bookId)) {
             throw IllegalArgumentException("不正なISBNの形式です")
         }
     }
@@ -33,21 +33,21 @@ value class BookId(val value: String) {
     }
 
     fun toISBN(): String {
-        return if (value.length == 10) {
+        return if (bookId.length == 10) {
             // ISBNが10桁の場合
-            val groupIdentifier = value.substring(0, 1)
-            val publisherCode = value.substring(1, 3)
-            val bookCode = value.substring(3, 9)
-            val checksum = value.substring(9)
+            val groupIdentifier = bookId.substring(0, 1)
+            val publisherCode = bookId.substring(1, 3)
+            val bookCode = bookId.substring(3, 9)
+            val checksum = bookId.substring(9)
 
             "ISBN${groupIdentifier}-${publisherCode}-${bookCode}-${checksum}"
         } else {
             // ISBNが13桁の場合
-            val isbnPrefix = value.substring(0, 3)
-            val groupIdentifier = value.substring(3, 4)
-            val publisherCode = value.substring(4, 6)
-            val bookCode = value.substring(6, 12)
-            val checksum = value.substring(12)
+            val isbnPrefix = bookId.substring(0, 3)
+            val groupIdentifier = bookId.substring(3, 4)
+            val publisherCode = bookId.substring(4, 6)
+            val bookCode = bookId.substring(6, 12)
+            val checksum = bookId.substring(12)
 
             "ISBN${isbnPrefix}-${groupIdentifier}-${publisherCode}-${bookCode}-${checksum}"
 

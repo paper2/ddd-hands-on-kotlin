@@ -5,7 +5,12 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class BookIdTest {
-    // 正常系（equalsなどはKotlinの機能を使っているためテストしていない）
+    @Test
+    fun `BookId can be initialized`() {
+        val bookId = BookId("9784167158057")
+        assertEquals("9784167158057", bookId.bookId)
+    }
+
     @Test
     fun `toISBN() 13 digit`() {
         val bookId = BookId("9784167158057")
@@ -18,7 +23,6 @@ class BookIdTest {
         assertEquals("ISBN4-16-715805-1", bookId.toISBN())
     }
 
-    // 異常系
     @Test
     fun `throw exception when invalid digit`() {
         val longIsbn = "1".repeat(101)
