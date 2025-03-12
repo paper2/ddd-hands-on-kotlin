@@ -1,7 +1,7 @@
 package com.example.stock_management.domain.models.book.stock.quantity_available
 
 @JvmInline
-value class QuantityAvailable(val quantityAvailable: Int) {
+value class QuantityAvailable(val value: Int) {
 
     init {
         validate()
@@ -13,7 +13,7 @@ value class QuantityAvailable(val quantityAvailable: Int) {
     }
 
     private fun validate() {
-        if (quantityAvailable !in MIN..MAX) {
+        if (value !in MIN..MAX) {
             throw IllegalArgumentException("在庫数が不正です")
         }
     }

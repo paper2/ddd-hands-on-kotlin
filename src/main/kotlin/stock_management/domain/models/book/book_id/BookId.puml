@@ -1,7 +1,7 @@
 @startuml BookId
 
 class "BookId" as BookId {
-    + value: string
+    + value: String
 }
 
 note bottom of BookId

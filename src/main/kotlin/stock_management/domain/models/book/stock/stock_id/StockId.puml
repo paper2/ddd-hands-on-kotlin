@@ -2,7 +2,7 @@
 @startuml StockId
 
 class "StockId" as StockId {
-    + value: Uuid
+    + value: UUID
 }
 
 @enduml

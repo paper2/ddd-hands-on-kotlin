@@ -9,6 +9,6 @@ class StockIdTest {
     fun `initialize StockId with valid UUID`() {
         val uuid = UUID.randomUUID()
         val stockId = StockId(uuid)
-        assertEquals(uuid, stockId.stockId)
+        assertEquals(uuid, stockId.value)
     }
 }

@@ -6,7 +6,7 @@ class TitleTest {
     @Test
     fun `initialize title with valid length`() {
         val title = Title("A valid title")
-        assertEquals("A valid title", title.title)
+        assertEquals("A valid title", title.value)
     }
 
     @Test
@@ -24,6 +24,6 @@ class TitleTest {
     fun `initialize title with maximum length`() {
         val maxLengthTitle = "a".repeat(1_000)
         val title = Title(maxLengthTitle)
-        assertEquals(maxLengthTitle, title.title)
+        assertEquals(maxLengthTitle, title.value)
     }
 }

@@ -1,7 +1,7 @@
 package com.example.stock_management.domain.models.book.title
 
 @JvmInline
-value class Title(val title: String) {
+value class Title(val value: String) {
 
     init {
         validate()
@@ -13,7 +13,7 @@ value class Title(val title: String) {
     }
 
     private fun validate() {
-        if (title.length !in MIN_LENGTH..MAX_LENGTH) {
+        if (value.length !in MIN_LENGTH..MAX_LENGTH) {
             throw IllegalArgumentException("タイトルの文字数が不正です")
         }
     }

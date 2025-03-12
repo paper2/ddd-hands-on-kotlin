@@ -1,7 +1,7 @@
 @startuml Title
 
 class "Title(タイトル)" as Title {
-    + value: string
+    + value: String
 }
 
 note bottom of Title

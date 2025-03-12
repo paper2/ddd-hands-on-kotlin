@@ -8,7 +8,7 @@ class BookIdTest {
     @Test
     fun `BookId can be initialized`() {
         val bookId = BookId("9784167158057")
-        assertEquals("9784167158057", bookId.bookId)
+        assertEquals("9784167158057", bookId.value)
     }
 
     @Test

@@ -1,7 +1,8 @@
 @startuml Price
 
 class "Price(価格)" as Price {
-    + value: number
+    + amount: Int
+    + currency: String
 }
 
 note bottom of Price
