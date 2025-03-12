@@ -31,4 +31,30 @@ class QuantityAvailableTest {
         val quantity = QuantityAvailable(1_000)
         assertEquals(1_000, quantity.value)
     }
+
+    @Test
+    fun `increment quantity within valid range`() {
+        val quantity = QuantityAvailable(500)
+        val incrementedQuantity = quantity.increment(1)
+        assertEquals(501, incrementedQuantity.value)
+    }
+
+    @Test
+    fun `decrement quantity within valid range`() {
+        val quantity = QuantityAvailable(500)
+        val decrementedQuantity = quantity.decrement(1)
+        assertEquals(499, decrementedQuantity.value)
+    }
+
+    @Test
+    fun `throw exception when incrementing quantity exceeds maximum`() {
+        val quantity = QuantityAvailable(1_000)
+        assertThrows<IllegalArgumentException> { quantity.increment(1) }
+    }
+
+    @Test
+    fun `throw exception when decrementing quantity goes below minimum`() {
+        val quantity = QuantityAvailable(1)
+        assertThrows<IllegalArgumentException> { quantity.decrement(1) }
+    }
 }

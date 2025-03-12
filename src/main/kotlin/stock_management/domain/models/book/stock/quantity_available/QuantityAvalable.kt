@@ -17,4 +17,12 @@ value class QuantityAvailable(val value: Int) {
             throw IllegalArgumentException("在庫数が不正です")
         }
     }
+
+    fun increment(amount: Int): QuantityAvailable {
+        return QuantityAvailable(value + 1)
+    }
+
+    fun decrement(amount: Int): QuantityAvailable {
+        return QuantityAvailable(value - 1)
+    }
 }
