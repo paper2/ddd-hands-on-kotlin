@@ -5,7 +5,7 @@ import kotlin.test.*
 class StatusTest {
     @Test
     fun `create instance when valid status`() {
-        for (type in Status.Type.entries) {
+        for (type in StatusType.entries) {
             val status = Status(type)
             assertEquals(type, status.value)
         }
@@ -13,19 +13,19 @@ class StatusTest {
 
     @Test
     fun `convert IN_STOCK status to label`() {
-        val status = Status(Status.Type.IN_STOCK)
+        val status = Status(StatusType.IN_STOCK)
         assertEquals("在庫あり", status.toLabel())
     }
 
     @Test
     fun `convert LOW_STOCK status to label`() {
-        val status = Status(Status.Type.LOW_STOCK)
+        val status = Status(StatusType.LOW_STOCK)
         assertEquals("在庫わずか", status.toLabel())
     }
 
     @Test
     fun `convert OUT_OF_STOCK status to label`() {
-        val status = Status(Status.Type.OUT_OF_STOCK)
+        val status = Status(StatusType.OUT_OF_STOCK)
         assertEquals("在庫なし", status.toLabel())
     }
 }
