@@ -1,1 +1,1 @@
-rootProject.name = "ktor-exposed-task-app"
+rootProject.name = "ddd-hands-on-kotlin"
