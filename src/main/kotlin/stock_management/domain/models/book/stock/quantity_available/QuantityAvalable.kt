@@ -19,10 +19,10 @@ value class QuantityAvailable(val value: Int) {
     }
 
     fun increment(amount: Int): QuantityAvailable {
-        return QuantityAvailable(value + 1)
+        return QuantityAvailable(value + amount)
     }
 
     fun decrement(amount: Int): QuantityAvailable {
-        return QuantityAvailable(value - 1)
+        return QuantityAvailable(value - amount)
     }
 }

@@ -1,7 +1,8 @@
 package com.example.stock_management.domain.models.book.stock.quantity_available
 
 import org.junit.jupiter.api.assertThrows
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class QuantityAvailableTest {
     @Test
@@ -35,15 +36,15 @@ class QuantityAvailableTest {
     @Test
     fun `increment quantity within valid range`() {
         val quantity = QuantityAvailable(500)
-        val incrementedQuantity = quantity.increment(1)
-        assertEquals(501, incrementedQuantity.value)
+        val incrementedQuantity = quantity.increment(100)
+        assertEquals(600, incrementedQuantity.value)
     }
 
     @Test
     fun `decrement quantity within valid range`() {
         val quantity = QuantityAvailable(500)
-        val decrementedQuantity = quantity.decrement(1)
-        assertEquals(499, decrementedQuantity.value)
+        val decrementedQuantity = quantity.decrement(100)
+        assertEquals(400, decrementedQuantity.value)
     }
 
     @Test
