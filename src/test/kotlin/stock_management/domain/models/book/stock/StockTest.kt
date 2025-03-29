@@ -1,6 +1,5 @@
 package com.example.stock_management.domain.models.book.stock
 
-import com.example.stock_management.domain.models.book.Stock
 import com.example.stock_management.domain.models.book.stock.quantity_available.QuantityAvailable
 import com.example.stock_management.domain.models.book.stock.status.Status
 import com.example.stock_management.domain.models.book.stock.status.StatusType

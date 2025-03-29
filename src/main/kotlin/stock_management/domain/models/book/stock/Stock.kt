@@ -1,4 +1,4 @@
-package com.example.stock_management.domain.models.book
+package com.example.stock_management.domain.models.book.stock
 
 import com.example.stock_management.domain.models.book.stock.quantity_available.QuantityAvailable
 import com.example.stock_management.domain.models.book.stock.status.Status
