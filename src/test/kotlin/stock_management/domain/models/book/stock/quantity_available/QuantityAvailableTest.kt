@@ -12,7 +12,7 @@ class QuantityAvailableTest {
 
     @Test
     fun `throw exception when quantity is below minimum`() {
-        assertThrows<IllegalArgumentException> { QuantityAvailable(0) }
+        assertThrows<IllegalArgumentException> { QuantityAvailable(-1) }
     }
 
     @Test
@@ -22,8 +22,8 @@ class QuantityAvailableTest {
 
     @Test
     fun `initialize QuantityAvailable with minimum quantity`() {
-        val quantity = QuantityAvailable(1)
-        assertEquals(1, quantity.value)
+        val quantity = QuantityAvailable(0)
+        assertEquals(0, quantity.value)
     }
 
     @Test
@@ -54,7 +54,7 @@ class QuantityAvailableTest {
 
     @Test
     fun `throw exception when decrementing quantity goes below minimum`() {
-        val quantity = QuantityAvailable(1)
+        val quantity = QuantityAvailable(0)
         assertThrows<IllegalArgumentException> { quantity.decrement(1) }
     }
 }

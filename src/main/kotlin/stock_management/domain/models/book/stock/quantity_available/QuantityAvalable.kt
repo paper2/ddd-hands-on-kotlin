@@ -9,7 +9,7 @@ value class QuantityAvailable(val value: Int) {
 
     companion object {
         const val MAX = 1_000
-        const val MIN = 1
+        const val MIN = 0
     }
 
     private fun validate() {
