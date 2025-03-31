@@ -165,4 +165,44 @@ class StockTest {
         assertThat(stock.status).isEqualTo(expectedStatus)
     }
 
+    @Test
+    @DisplayName("同一のStockインスタンスは等しいと判定される")
+    fun `same Stock instance is considered equal`() {
+        val stock = Stock.create()
+        assertThat(stock).isEqualTo(stock)
+    }
+
+    @Test
+    @DisplayName("異なるStockインスタンスは等しくないと判定される")
+    fun `different Stock instances are not considered equal`() {
+        val stock1 = Stock.create()
+        val stock2 = Stock.create()
+        assertThat(stock1).isNotEqualTo(stock2)
+    }
+
+    @Test
+    @DisplayName("同じStockIdを持つ異なるStockインスタンスは等しいと判定される")
+    fun `different Stock instances with same StockId are considered equal`() {
+        val stockId = StockId(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+        val stock1 = Stock.reconstruct(stockId, QuantityAvailable(10), Status(StatusType.IN_STOCK))
+        val stock2 = Stock.reconstruct(stockId, QuantityAvailable(5), Status(StatusType.LOW_STOCK))
+        assertThat(stock1).isEqualTo(stock2)
+    }
+
+    @Test
+    @DisplayName("異なるStockIdを持つStockインスタンスは等しくないと判定される")
+    fun `Stock instances with different StockIds are not considered equal`() {
+        val stock1 = Stock.reconstruct(
+            StockId(UUID.fromString("00000000-0000-0000-0000-000000000000")),
+            QuantityAvailable(10),
+            Status(StatusType.IN_STOCK)
+        )
+        val stock2 = Stock.reconstruct(
+            StockId(UUID.fromString("00000000-0000-0000-0000-000000000001")),
+            QuantityAvailable(10),
+            Status(StatusType.IN_STOCK)
+        )
+        assertThat(stock1).isNotEqualTo(stock2)
+    }
+
 }

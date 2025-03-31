@@ -20,11 +20,17 @@ data class Stock private constructor(
         ) = Stock(stockId, quantityAvailable, status)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Stock) return false
+        return stockId == other.stockId
+    }
+
     fun delete(): Stock {
         if (status.value != StatusType.OUT_OF_STOCK) {
             throw IllegalArgumentException("在庫がある場合削除できません。")
         }
-        return Stock(stockId, quantityAvailable, status)
+        return this
     }
 
     private fun changeStatusByQuantityAvailable(): Stock =
