@@ -21,9 +21,11 @@ data class Stock private constructor(
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Stock) return false
-        return stockId == other.stockId
+        return other is Stock && stockId == other.stockId
+    }
+
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
     }
 
     fun delete(): Stock {
@@ -60,4 +62,5 @@ data class Stock private constructor(
         }
         return changeQuantityAvailable(quantityAvailable.decrement(amount))
     }
+
 }
