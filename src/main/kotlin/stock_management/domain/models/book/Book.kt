@@ -7,7 +7,8 @@ import com.example.stock_management.domain.models.book.stock.status.Status
 import com.example.stock_management.domain.models.book.stock.status.StatusType
 import com.example.stock_management.domain.models.book.title.Title
 
-data class Book(
+@ConsistentCopyVisibility
+data class Book private constructor(
     val bookId: BookId,
     val title: Title,
     val price: Price,

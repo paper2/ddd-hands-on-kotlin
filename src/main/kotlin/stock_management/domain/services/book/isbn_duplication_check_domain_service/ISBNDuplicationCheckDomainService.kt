@@ -1,10 +1,8 @@
 package com.example.stock_management.domain.services.book.isbn_duplication_check_domain_service
 
-import com.example.stock_management.domain.models.book.book_id.BookId
+import com.example.stock_management.domain.models.book.Book
+import com.example.stock_management.domain.models.book.IBookRepository
 
-class ISBNDuplicationCheckDomainService {
-    fun execute(isbn: BookId): Boolean {
-        val isDuplicate = false
-        return isDuplicate
-    }
+class ISBNDuplicationCheckDomainService(private val bookRepository: IBookRepository) {
+    fun execute(book: Book): Boolean = bookRepository.find(book) != null
 }
