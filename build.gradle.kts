@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
     implementation(libs.exposed.dao)
+    implementation("org.jdbi:jdbi3-kotlin:3.49.0")
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.ktor.client.content.negotiation)
