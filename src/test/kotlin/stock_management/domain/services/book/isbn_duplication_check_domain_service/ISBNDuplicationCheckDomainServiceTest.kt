@@ -1,15 +1,12 @@
 package com.example.stock_management.domain.services.book.isbn_duplication_check_domain_service
 
 import com.example.infrastructure.in_memory.book.InMemoryBookRepository
-import com.example.infrastructure.jdbi.book.JdbiBookRepository
 import com.example.stock_management.domain.models.book.Book
 import com.example.stock_management.domain.models.book.IBookRepository
 import com.example.stock_management.domain.models.book.book_id.BookId
 import com.example.stock_management.domain.models.book.price.Price
 import com.example.stock_management.domain.models.book.title.Title
 import org.assertj.core.api.Assertions.assertThat
-import org.jdbi.v3.core.Jdbi
-import org.jdbi.v3.core.kotlin.KotlinPlugin
 import org.junit.Test
 import org.junit.Before
 import org.junit.jupiter.api.DisplayName
@@ -25,17 +22,7 @@ class ISBNDuplicationCheckDomainServiceTest {
 
     @Before
     fun setUp() {
-        bookRepository = JdbiBookRepository()
-        // TODO: utilに切り出したらここで利用しない
-        val jdbi = Jdbi.create("jdbc:postgresql://localhost:5432/postgres", "postgres", "password").installPlugin(KotlinPlugin())
-        jdbi.useTransaction<Exception> { handle->
-            handle.createUpdate(
-                """
-                DELETE FROM books;
-                DELETE FROM stocks;
-            """
-            ).execute()
-        }
+        bookRepository = InMemoryBookRepository()
         isbnDuplicationCheckDomainService = ISBNDuplicationCheckDomainService(bookRepository)
         bookRepository.save(existingBook)
     }

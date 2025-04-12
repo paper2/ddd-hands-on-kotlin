@@ -16,6 +16,8 @@ import org.jdbi.v3.core.kotlin.mapTo
 import org.jdbi.v3.core.transaction.TransactionIsolationLevel
 import java.util.*
 
+// TODO: DB周りの操作の抽象化とテスト作成。
+// https://zenn.dev/yamachan0625/books/ddd-hands-on/viewer/chapter12_repository ではprisma使っている。今回はjdbiで実装してみた。ただ、util周り整備しないと結構テストが面倒くさい。他の学習もしたいのでここは一旦保留。
 class JdbiBookRepository() : IBookRepository {
     private val jdbi =
         Jdbi.create("jdbc:postgresql://localhost:5432/postgres", "postgres", "password").installPlugin(KotlinPlugin());
